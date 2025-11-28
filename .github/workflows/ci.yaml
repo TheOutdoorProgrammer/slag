@@ -1,0 +1,139 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate YAML and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate YAML files
+        run: npm run validate
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
+
+  lint-yaml:
+    name: Lint YAML Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: projects/
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 120
+                level: warning
+              indentation:
+                spaces: 2
+              comments:
+                min-spaces-from-content: 1
+
+  check-urls:
+    name: Check URLs (Optional)
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't fail the build if URLs are temporarily down
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install js-yaml
+
+      - name: Check URLs are reachable
+        run: |
+          node -e "
+          const fs = require('fs');
+          const yaml = require('js-yaml');
+          const https = require('https');
+          const http = require('http');
+
+          const files = fs.readdirSync('projects').filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
+          let failed = false;
+
+          files.forEach(file => {
+            const content = fs.readFileSync(\`projects/\${file}\`, 'utf8');
+            const data = yaml.load(content);
+            const url = data.url;
+
+            console.log(\`Checking \${url}...\`);
+
+            const protocol = url.startsWith('https') ? https : http;
+            const req = protocol.get(url, { timeout: 10000 }, (res) => {
+              if (res.statusCode >= 200 && res.statusCode < 400) {
+                console.log(\`  ✓ \${url} is reachable (${res.statusCode})\`);
+              } else {
+                console.log(\`  ⚠ \${url} returned \${res.statusCode}\`);
+              }
+            });
+
+            req.on('error', (err) => {
+              console.log(\`  ✗ \${url} failed: \${err.message}\`);
+            });
+
+            req.on('timeout', () => {
+              console.log(\`  ✗ \${url} timed out\`);
+              req.destroy();
+            });
+          });
+          "
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

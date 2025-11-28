@@ -1,0 +1,26 @@
+{
+  "name": "slag",
+  "version": "1.0.0",
+  "description": "Searchable Link Aggregator - A directory of useful tools and projects",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build:data && vite",
+    "build": "npm run build:data && vite build",
+    "build:data": "node scripts/build-data.js",
+    "preview": "vite preview",
+    "fetch-favicons": "bash scripts/fetch-favicons.sh",
+    "validate": "node scripts/build-data.js --validate-only"
+  },
+  "dependencies": {
+    "fuse.js": "^7.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "js-yaml": "^4.1.0",
+    "vite": "^6.0.1"
+  }
+}

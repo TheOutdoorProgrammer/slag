@@ -1,0 +1,35 @@
+# Node
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist
+
+# Development
+.vscode
+.idea
+*.log
+
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+CONTRIBUTING.md
+prompt.md
+
+# CI/CD
+.github
+
+# Kubernetes
+k8s
+
+# Scripts (not needed in container)
+scripts/fetch-favicons.sh
+
+# OS
+.DS_Store
+Thumbs.db

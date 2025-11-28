@@ -1,0 +1,13 @@
+name: "VLC Media Player"
+url: "https://www.videolan.org/vlc/"
+description: "Free, open-source multimedia player that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols."
+category: "Media & Entertainment"
+pricing: "Free"
+price: ""
+tags:
+  - "video player"
+  - "media player"
+  - "open source"
+  - "cross-platform"
+lastVerified: "2025-01-15"
+notes: "The Swiss Army knife of media players. Plays literally everything. No ads, no spyware, completely free."

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: slag
+  labels:
+    name: slag
+    app.kubernetes.io/name: slag

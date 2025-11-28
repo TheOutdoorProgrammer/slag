@@ -1,0 +1,13 @@
+name: "Bitwarden"
+url: "https://bitwarden.com"
+description: "Open-source password manager with end-to-end encryption. Self-hostable with clients for all platforms."
+category: "Security & Privacy"
+pricing: "Freemium"
+price: "$10/year for Premium, $40/year for Families"
+tags:
+  - "password manager"
+  - "security"
+  - "encryption"
+  - "open source"
+lastVerified: "2025-01-15"
+notes: "Best open-source password manager. Free tier is very capable - Premium adds TOTP and advanced reports. Can self-host for free."

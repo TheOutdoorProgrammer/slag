@@ -1,0 +1,13 @@
+name: "Visual Studio Code"
+url: "https://code.visualstudio.com"
+description: "Free, open-source code editor with excellent extension ecosystem. Built on Electron with IntelliSense, debugging, and Git integration."
+category: "Development Tools"
+pricing: "Free"
+price: ""
+tags:
+  - "code editor"
+  - "ide"
+  - "open source"
+  - "microsoft"
+lastVerified: "2025-01-15"
+notes: "Industry standard code editor. Massive extension marketplace and active community. Completely free and open source."

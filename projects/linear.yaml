@@ -1,0 +1,13 @@
+name: "Linear"
+url: "https://linear.app"
+description: "Issue tracking and project management tool built for high-performance teams. Fast, keyboard-driven interface with excellent GitHub integration."
+category: "Productivity"
+pricing: "Freemium"
+price: "$8/user/month for Standard, $16/user/month for Plus"
+tags:
+  - "project management"
+  - "issue tracking"
+  - "development"
+  - "agile"
+lastVerified: "2025-01-15"
+notes: "Free for small teams (unlimited members, unlimited issues). Great alternative to Jira with much better UX."

@@ -1,0 +1,13 @@
+name: "Obsidian"
+url: "https://obsidian.md"
+description: "Powerful knowledge base that works on top of a local folder of plain text Markdown files. Perfect for note-taking and personal knowledge management."
+category: "Productivity"
+pricing: "Freemium"
+price: "$50/year for Sync, $96/year for Publish"
+tags:
+  - "notes"
+  - "markdown"
+  - "knowledge base"
+  - "pkm"
+lastVerified: "2025-01-15"
+notes: "Core app is completely free. Paid features are only for sync and publishing. All your data stays local in Markdown."
