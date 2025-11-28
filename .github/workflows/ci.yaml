@@ -62,9 +62,8 @@ jobs:
                 min-spaces-from-content: 1
 
   check-urls:
-    name: Check URLs (Optional)
+    name: Check URLs
     runs-on: ubuntu-latest
-    continue-on-error: true  # Don't fail the build if URLs are temporarily down
 
     steps:
       - name: Checkout code
@@ -79,42 +78,7 @@ jobs:
         run: npm install js-yaml
 
       - name: Check URLs are reachable
-        run: |
-          node -e "
-          const fs = require('fs');
-          const yaml = require('js-yaml');
-          const https = require('https');
-          const http = require('http');
-
-          const files = fs.readdirSync('projects').filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
-          let failed = false;
-
-          files.forEach(file => {
-            const content = fs.readFileSync(\`projects/\${file}\`, 'utf8');
-            const data = yaml.load(content);
-            const url = data.url;
-
-            console.log(\`Checking \${url}...\`);
-
-            const protocol = url.startsWith('https') ? https : http;
-            const req = protocol.get(url, { timeout: 10000 }, (res) => {
-              if (res.statusCode >= 200 && res.statusCode < 400) {
-                console.log(\`  ✓ \${url} is reachable (${res.statusCode})\`);
-              } else {
-                console.log(\`  ⚠ \${url} returned \${res.statusCode}\`);
-              }
-            });
-
-            req.on('error', (err) => {
-              console.log(\`  ✗ \${url} failed: \${err.message}\`);
-            });
-
-            req.on('timeout', () => {
-              console.log(\`  ✗ \${url} timed out\`);
-              req.destroy();
-            });
-          });
-          "
+        run: node scripts/check-urls.js
 
   security-scan:
     name: Security Scan
@@ -129,11 +93,6 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-
-      - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: 'trivy-results.sarif'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'  # Fail the build on high/critical vulnerabilities
