@@ -45,6 +45,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha,prefix={{branch}}-
+            type=sha,format=long
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
@@ -60,3 +61,23 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.meta.outputs.digest }}
+
+      - name: Checkout flux repository
+        uses: actions/checkout@v4
+        with:
+          repository: theoutdoorprogrammer/flux
+          ssh-key: ${{ secrets.FLUX_DEPLOY_KEY }}
+          path: flux-repo
+
+      - name: Update deployment file in flux repo
+        run: |
+          sed -i 's|image: .*|image: ghcr.io/theoutdoorprogrammer/slag:${{ github.sha }}|' flux-repo/clusters/home/slag/deployment.yaml
+
+      - name: Commit and push changes to flux repo
+        run: |
+          cd flux-repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add clusters/home/slag/deployment.yaml
+          git commit -m "Update slag image to ${{ github.sha }}" || exit 0
+          git push
