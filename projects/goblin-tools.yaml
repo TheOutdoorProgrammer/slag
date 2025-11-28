@@ -1,0 +1,12 @@
+name: "Goblin Tools"
+url: "https://goblin.tools"
+description: "Collection of simple, single-task tools designed to help with tasks."
+category: "Productivity"
+pricing: "Free"
+price: ""
+tags:
+  - "productivity"
+  - "accessibility"
+  - "task management"
+lastVerified: "2025-11-28"
+notes: "Includes tools like Magic ToDo (task breakdown), Formalizer (tone adjustment), Judge (tone interpretation), Estimator (time estimation), and Compiler (recipe simplification)."

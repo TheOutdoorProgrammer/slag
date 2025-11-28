@@ -1,0 +1,13 @@
+name: "1001 Albums Generator"
+url: "https://1001albumsgenerator.com"
+description: "Daily music discovery tool that serves you albums from the book '1001 Albums You Must Hear Before You Die'. Rate and track your listening journey."
+category: "Entertainment & Media"
+pricing: "Free"
+price: ""
+tags:
+  - "music"
+  - "discovery"
+  - "albums"
+  - "education"
+lastVerified: "2025-11-28"
+notes: "Great for music education and discovery. Better than algorithm-based recommendations as it's curated from a respected music reference book."
