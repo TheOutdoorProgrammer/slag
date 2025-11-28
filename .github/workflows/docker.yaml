@@ -71,7 +71,7 @@ jobs:
 
       - name: Update deployment file in flux repo
         run: |
-          sed -i 's|image: .*|image: ghcr.io/theoutdoorprogrammer/slag:${{ github.sha }}|' flux-repo/clusters/home/slag/deployment.yaml
+          sed -i 's|image: .*|image: ghcr.io/theoutdoorprogrammer/slag:sha-${{ github.sha }}|' flux-repo/clusters/home/slag/deployment.yaml
 
       - name: Commit and push changes to flux repo
         run: |
